@@ -31,9 +31,10 @@ func (ed *EventDispatcher) Register(eventName string, handler EventHandlerInterf
 	return nil
 }
 
-func (ed *EventDispatcher) Clear() {
+func (ed *EventDispatcher) Clear() error {
 	/* Estamos zerando os handlers. */
 	ed.handlers = make(map[string][]EventHandlerInterface)
+	return nil
 }
 
 func (ed *EventDispatcher) Has(eventName string, handler EventHandlerInterface) bool {
@@ -47,7 +48,7 @@ func (ed *EventDispatcher) Has(eventName string, handler EventHandlerInterface) 
 	return false
 }
 
-func (ed *EventDispatcher) Dispatch(event EventInterface) {
+func (ed *EventDispatcher) Dispatch(event EventInterface) error {
 	if _, ok := ed.handlers[event.GetName()]; ok {
 
 		/* Para cada um dos "handler", executaremos o método "handle". */
@@ -55,15 +56,18 @@ func (ed *EventDispatcher) Dispatch(event EventInterface) {
 			handler.Handle(event)
 		}
 	}
+
+	return nil
 }
 
-func (ed *EventDispatcher) Remove(eventName string, handler EventHandlerInterface) {
+func (ed *EventDispatcher) Remove(eventName string, handler EventHandlerInterface) error {
 	if _, ok := ed.handlers[eventName]; ok { //Se tivermos um elemento registrado, passaremos para o "for".
 		for i, h := range ed.handlers[eventName] {
 			if h == handler { //Se o handler for igual ao handler que queremos remover, faremos a remoção.
 				ed.handlers[eventName] = append(ed.handlers[eventName][:i], ed.handlers[eventName][i+1:]...) //Removendo o handler.
-				return
+				return nil
 			}
 		}
 	}
+	return nil
 }
