@@ -2,6 +2,7 @@ package events
 
 import (
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/suite"
 	"testing"
 	"time"
@@ -112,6 +113,13 @@ func (suite *EventDispatcherTestSuite) TestEventDispatcher_Clear() {
 func (suite *EventDispatcherTestSuite) TestEventDispatcher_Has() {
 	err := suite.eventDispatcher.Register(suite.event.GetName(), &suite.handler)
 	suite.Nil(err)
+	suite.Equal(1, len(suite.eventDispatcher.handlers[suite.event.GetName()]))
 
-	suite.True(suite.eventDispatcher.Has(suite.event.GetName()))
+	err = suite.eventDispatcher.Register(suite.event.GetName(), &suite.handler2)
+	suite.Nil(err)
+	suite.Equal(2, len(suite.eventDispatcher.handlers[suite.event.GetName()]))
+
+	assert.True(suite.T(), suite.eventDispatcher.Has(suite.event.GetName(), &suite.handler))
+	assert.True(suite.T(), suite.eventDispatcher.Has(suite.event.GetName(), &suite.handler2))
+	assert.False(suite.T(), suite.eventDispatcher.Has(suite.event.GetName(), &suite.handler3))
 }
