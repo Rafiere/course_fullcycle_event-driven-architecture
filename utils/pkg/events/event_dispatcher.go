@@ -16,17 +16,17 @@ func NewEventDispatcher() *EventDispatcher {
 }
 
 /* Um evento terá vários handlers. */
-func (e *EventDispatcher) Register(eventName string, handler EventHandlerInterface) error {
 
-	if _, ok = e.handlers[eventName]; ok {
-		for _, h := range e.handlers[eventName] {
+func (ed *EventDispatcher) Register(eventName string, handler EventHandlerInterface) error {
+	if _, ok := ed.handlers[eventName]; ok {
+		for _, h := range ed.handlers[eventName] {
 			if h == handler {
 				return ErrHandlerAlreadyRegistered
 			}
 		}
 	}
 
-	/* Se o handler nunca foi adicionado ao evento, abaixo, faremos essa adição. */
-	e.handlers[eventName] = append(e.handlers[eventName], handler)
+	//Se um handler não foi adicionado anteriormente nesse evento, faremos a adição.
+	ed.handlers[eventName] = append(ed.handlers[eventName], handler)
 	return nil
 }
