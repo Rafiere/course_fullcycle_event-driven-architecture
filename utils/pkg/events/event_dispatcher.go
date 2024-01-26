@@ -30,3 +30,13 @@ func (ed *EventDispatcher) Register(eventName string, handler EventHandlerInterf
 	ed.handlers[eventName] = append(ed.handlers[eventName], handler)
 	return nil
 }
+
+func (ed *EventDispatcher) Clear() {
+	/* Estamos zerando os handlers. */
+	ed.handlers = make(map[string][]EventHandlerInterface)
+}
+
+func (ed *EventDispatcher) Has(eventName string) bool {
+	_, ok := ed.handlers[eventName]
+	return ok
+}
