@@ -7,6 +7,7 @@ type EventInterface interface {
 	GetName() string
 	GetDateTime() time.Time
 	GetPayload() interface{} //Podemos ter diversos payloads nos diversos formatos.
+	SetPayload(payload interface{})
 }
 
 /* Essa interface representará as operações que são executadas quando um evento é chamado. */
