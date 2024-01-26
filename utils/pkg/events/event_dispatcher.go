@@ -56,3 +56,14 @@ func (ed *EventDispatcher) Dispatch(event EventInterface) {
 		}
 	}
 }
+
+func (ed *EventDispatcher) Remove(eventName string, handler EventHandlerInterface) {
+	if _, ok := ed.handlers[eventName]; ok { //Se tivermos um elemento registrado, passaremos para o "for".
+		for i, h := range ed.handlers[eventName] {
+			if h == handler { //Se o handler for igual ao handler que queremos remover, faremos a remoção.
+				ed.handlers[eventName] = append(ed.handlers[eventName][:i], ed.handlers[eventName][i+1:]...) //Removendo o handler.
+				return
+			}
+		}
+	}
+}
