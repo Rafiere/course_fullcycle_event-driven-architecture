@@ -56,7 +56,7 @@ func (s *AccountDBTestSuite) TestAccountDB_FindByID() {
 
 	s.Nil(err)
 
-	accountDB, err := s.accountDB.Get(account.ID)
+	accountDB, err := s.accountDB.FindByID(account.ID)
 
 	s.Nil(err)
 	s.Equal(account.ID, accountDB.ID)

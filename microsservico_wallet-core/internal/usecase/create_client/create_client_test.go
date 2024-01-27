@@ -14,7 +14,7 @@ type ClientGatewayMock struct {
 	mock.Mock
 }
 
-/* Abaixo, estamos mockando o resultado do "Get", assim, estamos atribuindo o valor desejado. */
+/* Abaixo, estamos mockando o resultado do "FindByID", assim, estamos atribuindo o valor desejado. */
 func (c *ClientGatewayMock) Get(id string) (*entity.Client, error) {
 
 	args := c.Called(id)
@@ -22,7 +22,7 @@ func (c *ClientGatewayMock) Get(id string) (*entity.Client, error) {
 	return args.Get(0).(*entity.Client), args.Error(1)
 }
 
-/* Abaixo, estamos mockando o resultado do "Get", assim, estamos atribuindo o valor desejado. */
+/* Abaixo, estamos mockando o resultado do "FindByID", assim, estamos atribuindo o valor desejado. */
 func (c *ClientGatewayMock) Save(client *entity.Client) error {
 
 	args := c.Called(client)

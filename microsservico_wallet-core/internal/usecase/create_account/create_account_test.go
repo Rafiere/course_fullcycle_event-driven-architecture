@@ -11,7 +11,7 @@ type ClientGatewayMock struct {
 	mock.Mock
 }
 
-/* Abaixo, estamos mockando o resultado do "Get", assim, estamos atribuindo o valor desejado. */
+/* Abaixo, estamos mockando o resultado do "FindByID", assim, estamos atribuindo o valor desejado. */
 func (c *ClientGatewayMock) Get(id string) (*entity.Client, error) {
 
 	args := c.Called(id)
@@ -19,7 +19,7 @@ func (c *ClientGatewayMock) Get(id string) (*entity.Client, error) {
 	return args.Get(0).(*entity.Client), args.Error(1)
 }
 
-/* Abaixo, estamos mockando o resultado do "Get", assim, estamos atribuindo o valor desejado. */
+/* Abaixo, estamos mockando o resultado do "FindByID", assim, estamos atribuindo o valor desejado. */
 func (c *ClientGatewayMock) Save(client *entity.Client) error {
 
 	args := c.Called(client)
@@ -50,7 +50,7 @@ func TestCreateAccountUseCase_Execute(t *testing.T) {
 
 	client, _ := entity.NewClient("John Doe", "j@email.com")
 	clientMock := &ClientGatewayMock{}
-	clientMock.On("Get", client.ID).Return(client, nil)
+	clientMock.On("FindByID", client.ID).Return(client, nil)
 
 	accountMock := &AccountGatewayMock{}
 	accountMock.On("Save", mock.Anything).Return(nil)
@@ -66,6 +66,6 @@ func TestCreateAccountUseCase_Execute(t *testing.T) {
 	assert.NotNil(t, output.ID)
 	clientMock.AssertExpectations(t)
 	accountMock.AssertExpectations(t)
-	clientMock.AssertNumberOfCalls(t, "Get", 1)
+	clientMock.AssertNumberOfCalls(t, "FindByID", 1)
 	accountMock.AssertNumberOfCalls(t, "Save", 1)
 }
