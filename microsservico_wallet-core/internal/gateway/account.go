@@ -5,4 +5,5 @@ import "github.com.br/Rafiere/course_fullcycle_arquitetura-baseada-em-microsserv
 type AccountGateway interface {
 	Save(account *entity.Account) error
 	FindByID(id string) (*entity.Account, error)
+	UpdateBalance(account *entity.Account) error
 }
