@@ -5,11 +5,11 @@ services:
     image: mysql:5.7
     platform: linux/amd64
     environment:
-        MYSQL_ROOT_PASSWORD: root
+        MYSQL_ROOT_PASSWORD: root2
         MYSQL_DATABASE: wallet
-        MYSQL_USER: root
-        MYSQL_PASSWORD: root
+        MYSQL_USER: root2
+        MYSQL_PASSWORD: root2
     ports:
-      - "3306:3306"
+      - "3307:3307"
     volumes:
       - ./.docker/mysql:/var/lib/mysql
