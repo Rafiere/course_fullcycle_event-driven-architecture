@@ -2,6 +2,7 @@ package create_account
 
 import (
 	"github.com.br/Rafiere/course_fullcycle_arquitetura-baseada-em-microsservicos/microsservico_wallet-core/internal/entity"
+	"github.com.br/Rafiere/course_fullcycle_arquitetura-baseada-em-microsservicos/microsservico_wallet-core/internal/usecase/mocks"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"testing"
@@ -48,15 +49,14 @@ func (a *AccountGatewayMock) FindByID(id string) (*entity.Account, error) {
 
 func TestCreateAccountUseCase_Execute(t *testing.T) {
 
-	client, _ := entity.NewClient("John Doe", "j@email.com")
-	clientMock := &ClientGatewayMock{}
-	clientMock.On("FindByID", client.ID).Return(client, nil)
+	client, _ := entity.NewClient("John Doe", "j@j")
+	clientMock := &mocks.ClientGatewayMock{}
+	clientMock.On("Get", client.ID).Return(client, nil)
 
-	accountMock := &AccountGatewayMock{}
+	accountMock := &mocks.AccountGatewayMock{}
 	accountMock.On("Save", mock.Anything).Return(nil)
 
 	uc := NewCreateAccountUseCase(accountMock, clientMock)
-
 	inputDto := CreateAccountInputDTO{
 		ClientID: client.ID,
 	}
@@ -66,6 +66,6 @@ func TestCreateAccountUseCase_Execute(t *testing.T) {
 	assert.NotNil(t, output.ID)
 	clientMock.AssertExpectations(t)
 	accountMock.AssertExpectations(t)
-	clientMock.AssertNumberOfCalls(t, "FindByID", 1)
+	clientMock.AssertNumberOfCalls(t, "Get", 1)
 	accountMock.AssertNumberOfCalls(t, "Save", 1)
 }
