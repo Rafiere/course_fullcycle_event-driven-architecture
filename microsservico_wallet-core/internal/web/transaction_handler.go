@@ -28,7 +28,8 @@ func (h *WebTransactionHandler) CreateTransaction(w http.ResponseWriter, r *http
 	}
 
 	w.Header().Set("Content-Type", "application/json")
-	output, err := h.CreateTransactionUseCase.Execute(&dto)
+	ctx := r.Context()
+	output, err := h.CreateTransactionUseCase.Execute(ctx, dto)
 
 	err = json.NewEncoder(w).Encode(output)
 
